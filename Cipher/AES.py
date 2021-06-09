@@ -1,32 +1,38 @@
 class Cipher:
-    round_keys = []
+    keys = []
     state = []
-
+    rounds = 0
     def __init__(self, key, plaintext, key_size):
         self.key = key  # Key is n bits
         self.plaintext = plaintext
         self.key_size = key_size
+        self.round_keys(key, key_size)
 
     def Encrypt(self):
         # Call upon keygen
-        self.round_keys, rounds = self.keyGeneration(self.key, self.key_size)
         # turn plaintext to "matrix"
-        var = self.tap_into_matrix(self.plaintext)
-        print(var)
+        self.state = self.tap_into_matrix(self.plaintext)
+        self.add_round_key(self.state, self.keys)
 
-        for x in range(rounds): # n -1 rounds
+        for x in range(self.rounds): # n -1 rounds
             self.subbytes(self.state)
             self.shift_rows(self.state)
             self.mix_columns(self.state)
-            self.add_round_key(self.state)
+            self.add_round_key(self.state, self.keys)
             # Now last round
         self.subbytes(self.state)
         self.shift_rows(self.state)
-        self.add_round_key(self.state)
+        self.add_round_key(self.state, self.keys)
 
         return self.state
 
-    def keyGeneration(self, key, key_size):
+    def round_keys(self, key, key_size):
+        #TODO
+        # key to matrix form
+        # generate all the round keys
+        # update the keys[] list
+        key_matrix = self.tap_into_matrix(key)
+        print(key_matrix)
         keylist = []
         if key_size == 128:
             return keylist, 9
@@ -36,16 +42,21 @@ class Cipher:
             return keylist, 13
 
     def subbytes(self, state):
+        #TODO
         pass
 
     def shift_rows(self, state):
+        #TODO
         pass
 
     def mix_columns(self, state):
+        #TODO
         pass
 
-    def add_round_key(self, state):
-        pass
+    def add_round_key(self, state, key_round):
+        for i in range(4):
+            for j in range(4):
+                state[i][j] ^= key_round[i][j]
 
     def tap_into_matrix(self, content):
         shaped_array, state = self.sort_array_to_matrix_state(content)
@@ -67,7 +78,7 @@ class Cipher:
 if __name__ == '__main__':
 
     # dont need to convert this, since already hex
-    key = "secret_kvegardbe" # .encode("utf-8").hex()
+    key = "2b7e151628aed2a6abf7158809cf4f3c" # .encode("utf-8").hex()
     plaintext = "3243f6a8885a308d313198a2e0370734" # .encode("utf-8").hex()
     cipher = Cipher(key, plaintext, 128)
 
