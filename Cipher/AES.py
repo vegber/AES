@@ -11,7 +11,8 @@ class Cipher:
         # Call upon keygen
         self.round_keys, rounds = self.keyGeneration(self.key, self.key_size)
         # turn plaintext to "matrix"
-        self.tap_into_matrix(self.plaintext)
+        var = self.tap_into_matrix(self.plaintext)
+        print(var)
 
         for x in range(rounds): # n -1 rounds
             self.subbytes(self.state)
@@ -47,15 +48,27 @@ class Cipher:
         pass
 
     def tap_into_matrix(self, content):
-        matrix = []
-        for iter in range(16):
-            pass
+        shaped_array, state = self.sort_array_to_matrix_state(content)
+        for x in range(4):
+            for i in range(len(state)):
+                if i % 4 == x:
+                    shaped_array.append(state[i])
+        matrix = [[x for x in shaped_array[i:i+4]] for i in range(0, len(shaped_array), 4)]
+        return matrix
+
+    def sort_array_to_matrix_state(self, content):
+        s = " ".join(content[i:i + 2] for i in range(0, len(content), 2))
+        state = [x for x in s.split()]
+        shaped_array = []
+        # sorted array
+        return shaped_array, state
 
 
 if __name__ == '__main__':
-    key = "secret_kvegardbe".encode("utf-8").hex()
-    plaintext = "00000101030307070f0f1f1f3f3f7f7f".encode("utf-8").hex()
-    print(plaintext)
+
+    # dont need to convert this, since already hex
+    key = "secret_kvegardbe" # .encode("utf-8").hex()
+    plaintext = "3243f6a8885a308d313198a2e0370734" # .encode("utf-8").hex()
     cipher = Cipher(key, plaintext, 128)
 
     cipher.Encrypt()
