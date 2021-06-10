@@ -1,6 +1,7 @@
-from BitVector import *
 from collections import deque
+
 import static.S_BOX as sb
+
 
 class Cipher:
     keys = []
@@ -15,30 +16,39 @@ class Cipher:
         self.round_key_gen(self.tap_into_matrix(key))
 
     def Encrypt(self):
-        for x in self.keys:
-            for y in x:
-                print(y)
-            print("\n")
         # Call upon keygen
         # turn plaintext to "matrix"
         self.state = self.tap_into_matrix(self.plaintext)
-        self.add_round_key(self.state, self.keys)
-        for x in range(self.rounds):  # n -1 rounds
+        self.printable()
+        self.add_round_key()
+        self.printable()
+        for x in range(9):  # n -1 rounds
             self.round_encyption()
             # Now last round
         self.last_round()
         return self.state
 
     def last_round(self):
-        self.subbytes(self.state)
-        self.shift_rows(self.state)
-        self.add_round_key(self.state, self.keys)
+        self.subbytes()
+        self.printable()
+        self.shift_rows()
+        self.printable()
+        self.add_round_key()
+        self.printable()
 
     def round_encyption(self):
-        self.subbytes(self.state)
-        self.shift_rows(self.state)
-        self.mix_columns(self.state)
-        self.add_round_key(self.state, self.keys)
+        self.subbytes()
+        self.printable()
+        self.shift_rows()
+        self.printable()
+        self.mix_columns()
+        self.printable()
+        self.add_round_key()
+        self.printable()
+
+    def printable(self):
+        print(*self.state, sep='\n')
+        print()
 
     def round_keys(self, key, key_size):
         # TODO
@@ -54,33 +64,62 @@ class Cipher:
         if key_size == 256:
             return keylist, 13
 
-    def subbytes(self, state):
+    def subbytes(self):
         # TODO
-        pass
+        new_list = []
+        print("wer here")
+        print(self.state)
+        # variable_change = [hex(sb.Sbox[int(y, 16)]).lstrip("0x") for y in lists]
+        # new_list.append(variable_change)
+        self.state = new_list
 
-    def shift_rows(self, state):
+    def shift_rows(self):
         # TODO
-        pass
+        shifted_rows = []
+        for x in range(len(self.state)):
+            if x == 0:
+                shifted_rows.append(self.state[x])
+            else:
+                vector = deque(self.state[x])
+                vector.rotate(-x)
+                listed_vector = list(vector)
+                shifted_rows.append(listed_vector)
+        self.state = shifted_rows
 
-    def mix_columns(self, state):
-        new_state = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-        n = 8
-        mod = BitVector(bitstring='100011011')  # x^8 + x^4 + x^3 + x + 1
-        for y in range(4):
-            for x in range(4):
-                Yn   = BitVector(hexstring=state[y][0]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][0]), mod, n)
-                Yn_1 = BitVector(hexstring=state[y][1]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][1]), mod, n)
-                Yn_2 = BitVector(hexstring=state[y][2]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][2]), mod, n)
-                Yn_3 = BitVector(hexstring=state[y][3]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][3]), mod, n)
-                xored = Yn ^ Yn_1 ^ Yn_2 ^ Yn_3
-                new_state[x][y] = (xored.get_bitvector_in_hex())
-        return new_state
+    def mix_columns(self):
+        a = [[self.state[x][0] for x in range(4)], [self.state[x][1] for x in range(4)],
+             [self.state[x][2] for x in range(4)], [self.state[x][3] for x in range(4)]]
+        cop = []
+        for x in a:
+            cop.append(self.colum_mix_colum(int(x[0], 16), int(x[1], 16), int(x[2], 16), int(x[3], 16)))
+        rotate = self.matrixify(cop)
+        self.state = rotate
 
-    def add_round_key(self, state, key_round):
+    def colum_mix_colum(self, a, b, c, d):
+        one = (self.gmul(a, 2) ^ self.gmul(b, 3) ^ self.gmul(c, 1) ^ self.gmul(d, 1))
+        two = (self.gmul(a, 1) ^ self.gmul(b, 2) ^ self.gmul(c, 3) ^ self.gmul(d, 1))
+        three = (self.gmul(a, 1) ^ self.gmul(b, 1) ^ self.gmul(c, 2) ^ self.gmul(d, 3))
+        four = (self.gmul(a, 3) ^ self.gmul(b, 1) ^ self.gmul(c, 1) ^ self.gmul(d, 2))
+        return [hex(one).lstrip("0x"), hex(two).lstrip("0x"), hex(three).lstrip("0x"), hex(four).lstrip("0x")]
+
+    def gmul(self, a, b):
+        if b == 1:
+            return a
+        tmp = (a << 1) & 0xff
+        if b == 2:
+            return tmp if a < 128 else tmp ^ 0x1b
+        if b == 3:
+            return self.gmul(a, 2) ^ a
+
+    def add_round_key(self):
+        print(f"Round_key at {self.rounds} with key: {self.keys[self.rounds]}")
         for i in range(4):
             for j in range(4):
-                pass
-                # state[i][j] ^= key_round[i][j]
+                if self.state[i][j] == '':
+                    self.state[i][j] += '0'
+                self.state[i][j] = hex(int(self.state[i][j], 16) ^ int(self.keys[self.rounds][i][j], 16)).lstrip("0x")
+
+        self.rounds += 1
 
     def tap_into_matrix(self, content):
         shaped_array, state = self.sort_array_to_matrix_state(content)
@@ -91,7 +130,8 @@ class Cipher:
         matrix = [[x for x in shaped_array[i:i + 4]] for i in range(0, len(shaped_array), 4)]
         return matrix
 
-    def sort_array_to_matrix_state(self, content):
+    @staticmethod
+    def sort_array_to_matrix_state(content):
         s = " ".join(content[i:i + 2] for i in range(0, len(content), 2))
         state = [x for x in s.split()]
         shaped_array = []
@@ -129,7 +169,8 @@ class Cipher:
         except:
             print(f"Error at: {state}")
 
-    def get_nth_column(self, col, last_matrix):
+    @staticmethod
+    def get_nth_column(col, last_matrix):
 
         column = [x[col] for x in last_matrix]
         for val in range(len(column)):
@@ -145,7 +186,7 @@ class Cipher:
         :return:
         """
         # for each round, create new matrix
-        # first column is last matrix colum xored with
+        # first column is last matrix column xor with
         # find rotWord:
         for round_matrices in range(10):
             colums_ = []
@@ -167,7 +208,8 @@ class Cipher:
                     # rcon is two dimensional
                     rcon = [x for x in sb.Rcon[round_matrices]]
                     column_of_matrix = [
-                        (hex(int(subbytes_var[i], 16) ^ int(nth_column_of_last_matrix[i], 16) ^ int(rcon[i], 16))).lstrip(
+                        (hex(int(subbytes_var[i], 16) ^ int(nth_column_of_last_matrix[i], 16) ^ int(rcon[i],
+                                                                                                    16))).lstrip(
                             "0x") for i in range(4)]
                     colums_.append(column_of_matrix)
                 else:  # last column xor last_mastrix_i
@@ -175,6 +217,9 @@ class Cipher:
                     other_colums = [
                         hex(int(nth_column_of_last_matrix[i], 16) ^ int(colums_[col - 1][i], 16)).lstrip("0x")
                         for i in range(4)]
+                    for index in range(len(other_colums)):
+                        if other_colums[index] == '':
+                            other_colums[index] = "0"
                     colums_.append(other_colums)
             # make colums into correct matrix
             # todo
@@ -189,3 +234,4 @@ if __name__ == '__main__':
     cipher = Cipher(key, plaintext, 128)
 
     cipher.Encrypt()
+
