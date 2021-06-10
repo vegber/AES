@@ -1,7 +1,6 @@
 from BitVector import *
-
-from static.S_BOX import M_aes
-
+from collections import deque
+import static.S_BOX as sb
 
 class Cipher:
     keys = []
@@ -12,9 +11,14 @@ class Cipher:
         self.key = key  # Key is n bits
         self.plaintext = plaintext
         self.key_size = key_size
-        self.round_keys(key, key_size)
+        self.keys.append(self.tap_into_matrix(key))
+        self.round_key_gen(self.tap_into_matrix(key))
 
     def Encrypt(self):
+        for x in self.keys:
+            for y in x:
+                print(y)
+            print("\n")
         # Call upon keygen
         # turn plaintext to "matrix"
         self.state = self.tap_into_matrix(self.plaintext)
@@ -64,10 +68,10 @@ class Cipher:
         mod = BitVector(bitstring='100011011')  # x^8 + x^4 + x^3 + x + 1
         for y in range(4):
             for x in range(4):
-                Yn   = BitVector(hexstring=state[y][0]).gf_multiply_modular(BitVector(intVal=M_aes[x][0]), mod, n)
-                Yn_1 = BitVector(hexstring=state[y][1]).gf_multiply_modular(BitVector(intVal=M_aes[x][1]), mod, n)
-                Yn_2 = BitVector(hexstring=state[y][2]).gf_multiply_modular(BitVector(intVal=M_aes[x][2]), mod, n)
-                Yn_3 = BitVector(hexstring=state[y][3]).gf_multiply_modular(BitVector(intVal=M_aes[x][3]), mod, n)
+                Yn   = BitVector(hexstring=state[y][0]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][0]), mod, n)
+                Yn_1 = BitVector(hexstring=state[y][1]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][1]), mod, n)
+                Yn_2 = BitVector(hexstring=state[y][2]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][2]), mod, n)
+                Yn_3 = BitVector(hexstring=state[y][3]).gf_multiply_modular(BitVector(intVal=sb.M_aes[x][3]), mod, n)
                 xored = Yn ^ Yn_1 ^ Yn_2 ^ Yn_3
                 new_state[x][y] = (xored.get_bitvector_in_hex())
         return new_state
@@ -93,6 +97,89 @@ class Cipher:
         shaped_array = []
         # sorted array
         return shaped_array, state
+
+    def matrixify(self, colums_):
+        ret_me = []
+        a = []
+        b = []
+        c = []
+        d = []
+        for x in range(len(colums_)):
+            a.append(colums_[x][0])
+            b.append(colums_[x][1])
+            c.append(colums_[x][2])
+            d.append(colums_[x][3])
+        ret_me.append(a)
+        ret_me.append(b)
+        ret_me.append(c)
+        ret_me.append(d)
+        return ret_me
+
+    def subBytes_for_roundkeys(self, state):
+        # for byte in state:
+        #    print("0x"+byte)
+        # var = [sb.Sbox[binascii.hexlify(byte)] for byte in state]
+        # todo
+        # bug where some state contains empty string
+        try:
+            for index in range(len(state)):
+                if state[index] == '':
+                    state[index] += '0'
+            return [hex(sb.Sbox[int("0x" + word, 16)]) for word in state]
+        except:
+            print(f"Error at: {state}")
+
+    def get_nth_column(self, col, last_matrix):
+
+        column = [x[col] for x in last_matrix]
+        for val in range(len(column)):
+            if column[val] == '':
+                column[val] += '0'
+
+        return column
+
+    def round_key_gen(self, key: list):
+        """
+        Input masterkey in matrix form
+        :param key:
+        :return:
+        """
+        # for each round, create new matrix
+        # first column is last matrix colum xored with
+        # find rotWord:
+        for round_matrices in range(10):
+            colums_ = []
+            for col in range(4):
+                last_matrix = self.keys[round_matrices]
+                RotWord = [x[3] for x in last_matrix]
+                # rotate RotWord
+                deqlist = deque(RotWord)
+                deqlist.rotate(-1)
+                RotWord = list(deqlist)
+                nth_column_of_last_matrix = self.get_nth_column(col, last_matrix)
+                if col == 0:  # only first round need a xor b xor c
+                    # rotated_
+                    # now SubBytes_
+                    subbytes_var = self.subBytes_for_roundkeys(RotWord)
+                    # now we xor first column in last matrix
+                    # with subbytes column
+                    # and with first column of Rcon
+                    # rcon is two dimensional
+                    rcon = [x for x in sb.Rcon[round_matrices]]
+                    column_of_matrix = [
+                        (hex(int(subbytes_var[i], 16) ^ int(nth_column_of_last_matrix[i], 16) ^ int(rcon[i], 16))).lstrip(
+                            "0x") for i in range(4)]
+                    colums_.append(column_of_matrix)
+                else:  # last column xor last_mastrix_i
+                    # todo
+                    other_colums = [
+                        hex(int(nth_column_of_last_matrix[i], 16) ^ int(colums_[col - 1][i], 16)).lstrip("0x")
+                        for i in range(4)]
+                    colums_.append(other_colums)
+            # make colums into correct matrix
+            # todo
+            correct_format = self.matrixify(colums_)
+            self.keys.append(correct_format)
 
 
 if __name__ == '__main__':
