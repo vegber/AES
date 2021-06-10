@@ -1,3 +1,4 @@
+import sys
 from collections import deque
 
 import static.S_BOX as sb
@@ -19,9 +20,7 @@ class Cipher:
         # Call upon keygen
         # turn plaintext to "matrix"
         self.state = self.tap_into_matrix(self.plaintext)
-        self.printable()
         self.add_round_key()
-        self.printable()
         for x in range(9):  # n -1 rounds
             self.round_encyption()
             # Now last round
@@ -30,21 +29,14 @@ class Cipher:
 
     def last_round(self):
         self.subbytes()
-        self.printable()
         self.shift_rows()
-        self.printable()
         self.add_round_key()
-        self.printable()
 
     def round_encyption(self):
         self.subbytes()
-        self.printable()
         self.shift_rows()
-        self.printable()
         self.mix_columns()
-        self.printable()
         self.add_round_key()
-        self.printable()
 
     def printable(self):
         print(*self.state, sep='\n')
@@ -67,11 +59,17 @@ class Cipher:
     def subbytes(self):
         # TODO
         new_list = []
-        print("wer here")
-        print(self.state)
+        for x in self.state:
+            between_stage = []
+            for y in x:
+                if y == '':
+                    between_stage.append(hex(sb.Sbox[int('0', 16)]).lstrip("0x"))
+                else:
+                    between_stage.append(hex(sb.Sbox[int(y, 16)]).lstrip("0x"))
+            new_list.append(between_stage)
+        self.state = new_list
         # variable_change = [hex(sb.Sbox[int(y, 16)]).lstrip("0x") for y in lists]
         # new_list.append(variable_change)
-        self.state = new_list
 
     def shift_rows(self):
         # TODO
@@ -112,13 +110,11 @@ class Cipher:
             return self.gmul(a, 2) ^ a
 
     def add_round_key(self):
-        print(f"Round_key at {self.rounds} with key: {self.keys[self.rounds]}")
         for i in range(4):
             for j in range(4):
                 if self.state[i][j] == '':
                     self.state[i][j] += '0'
                 self.state[i][j] = hex(int(self.state[i][j], 16) ^ int(self.keys[self.rounds][i][j], 16)).lstrip("0x")
-
         self.rounds += 1
 
     def tap_into_matrix(self, content):
@@ -234,4 +230,5 @@ if __name__ == '__main__':
     cipher = Cipher(key, plaintext, 128)
 
     cipher.Encrypt()
+    cipher.printable()
 
