@@ -1,4 +1,7 @@
 from collections import deque
+
+import numpy
+from numpy import polymul, polydiv
 import static.S_BOX as sb
 
 
@@ -6,39 +9,86 @@ class Cipher:
     keys = []
     state = []
     rounds = 0
+    benji = None
 
-    def __init__(self, key, plaintext, key_size):
-        self.key = key  # Key is n bits
-        self.plaintext = plaintext
+    def __init__(self, key, text, key_size):
+        """
+        Instantiate the cipher variables
+        :param key:
+        :param text:
+        :param key_size:
+        """
+        self.key = key
+        self.text = text
         self.key_size = key_size
         self.keys.append(self.tap_into_matrix(key))
-        self.round_key_gen()
+        self.round_key_gen()  # generate roundkeys
 
-    def Encrypt(self):
-        # Call upon keygen
-        # turn plaintext to "matrix"
-        self.state = self.tap_into_matrix(self.plaintext)
+    def Encrypt(self) -> state:
+        """
+        Performs the AES encryption scheme
+        :return: state
+        """
+        self.state = self.tap_into_matrix(self.text)
         self.add_round_key()
         for x in range(9):  # n -1 rounds
-            self.round_encryption()
-            # Now last round
-        self.last_round()
+            self.round_encryption(True)
+        self.last_round(True)
         return self.state
 
-    def last_round(self):
-        self.substitute_bytes()
-        self.shift_rows()
+    def Decrypt(self):
+        self.benji = False
+        self.state = self.tap_into_matrix(self.text)
+        self.keys = self.keys[::-1]
+        self.add_round_key()
+        self.shift_rows(False)
+        self.substitute_bytes(False)
+        for x in range(9):
+            self.add_round_key()
+            self.mix_columns(False)
+            self.shift_rows(False)
+            self.substitute_bytes(False)
         self.add_round_key()
 
-    def round_encryption(self):
-        self.substitute_bytes()
-        self.shift_rows()
-        self.mix_columns()
+    def last_round(self, mode):
+        """
+        Last round Encryption
+        Without MixColumn
+        :rtype: None
+        """
+        self.substitute_bytes(mode)
+        self.shift_rows(mode)
         self.add_round_key()
 
-    def printable(self):
-        print(*self.state, sep='\n')
-        print()
+    def round_encryption(self, mode) -> None:
+        """
+        Performs default round encryption
+        :rtype: None
+        """
+        self.substitute_bytes(mode)
+        self.shift_rows(mode)
+        self.mix_columns(mode)
+        self.add_round_key()
+
+    @staticmethod
+    def transpose_list(nested_list):
+        transpose = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+        for x in range(4):
+            for y in range(4):
+                transpose[y][x] = nested_list[x][y]
+        return transpose
+
+    def printable(self, matrix_form: bool):
+        """
+        :rtype: object
+        """
+        if matrix_form:
+            print(*self.state, sep='\n')
+            print()
+        else:
+            for x in self.transpose_list(self.state):
+                for y in x:
+                    print(y, end=" ")
 
     def round_keys(self, key, key_size):
         # TODO
@@ -54,21 +104,26 @@ class Cipher:
         if key_size == 256:
             return kwlist, 13
 
-    def substitute_bytes(self):
+    def substitute_bytes(self, mode):
         # TODO
         new_list = []
         for x in self.state:
             between_stage = []
             for y in x:
-                if y == '':
-                    between_stage.append(hex(sb.Sbox[int('0', 16)]).lstrip("0x"))
+                if mode:
+                    if y == '':
+                        between_stage.append(hex(sb.Sbox[int('0', 16)]).lstrip("0x"))
+                    else:
+                        between_stage.append(hex(sb.Sbox[int(y, 16)]).lstrip("0x"))
                 else:
-                    between_stage.append(hex(sb.Sbox[int(y, 16)]).lstrip("0x"))
+                    if y == '':
+                        between_stage.append(hex(sb.inv_s_box[int('0', 16)]).lstrip("0x"))
+                    else:
+                        between_stage.append(hex(sb.inv_s_box[int(y, 16)]).lstrip("0x"))
             new_list.append(between_stage)
         self.state = new_list
 
-
-    def shift_rows(self):
+    def shift_rows(self, mode):
         # TODO
         shifted_rows = []
         for x in range(len(self.state)):
@@ -76,35 +131,72 @@ class Cipher:
                 shifted_rows.append(self.state[x])
             else:
                 vector = deque(self.state[x])
-                vector.rotate(-x)
+                if mode:
+                    vector.rotate(-x)
+                else:
+                    vector.rotate(x)
                 listed_vector = list(vector)
                 shifted_rows.append(listed_vector)
         self.state = shifted_rows
 
-    def mix_columns(self):
+    def mix_columns(self, mode):
+        for x in range(len(self.state)):
+            for y in range(4):
+                if self.state[x][y] == '':
+                    self.state[x][y] = '0'
         a = [[self.state[x][0] for x in range(4)], [self.state[x][1] for x in range(4)],
              [self.state[x][2] for x in range(4)], [self.state[x][3] for x in range(4)]]
         cop = []
         for x in a:
-            cop.append(self.column_mix_column(int(x[0], 16), int(x[1], 16), int(x[2], 16), int(x[3], 16)))
+            cop.append(self.column_mix_column(int(x[0], 16), int(x[1], 16), int(x[2], 16), int(x[3], 16), mode))
         rotate = self.convert_to_matrix(cop)
         self.state = rotate
 
-    def column_mix_column(self, a, b, c, d):
-        one = (self.galoisfield_multiplication(a, 2) ^ self.galoisfield_multiplication(b, 3) ^ self.galoisfield_multiplication(c, 1) ^ self.galoisfield_multiplication(d, 1))
-        two = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b, 2) ^ self.galoisfield_multiplication(c, 3) ^ self.galoisfield_multiplication(d, 1))
-        three = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b, 1) ^ self.galoisfield_multiplication(c, 2) ^ self.galoisfield_multiplication(d, 3))
-        four = (self.galoisfield_multiplication(a, 3) ^ self.galoisfield_multiplication(b, 1) ^ self.galoisfield_multiplication(c, 1) ^ self.galoisfield_multiplication(d, 2))
+    def column_mix_column(self, a, b, c, d, mode):
+        if mode:
+            one = (self.galoisfield_multiplication(a, 2) ^ self.galoisfield_multiplication(b, 3) ^ self.galoisfield_multiplication(
+                c, 1) ^ self.galoisfield_multiplication(d, 1))
+            two = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b, 2) ^ self.galoisfield_multiplication(
+                c, 3) ^ self.galoisfield_multiplication(d, 1))
+            three = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b, 1) ^ self.galoisfield_multiplication(
+                c, 2) ^ self.galoisfield_multiplication(d, 3))
+            four = (self.galoisfield_multiplication(a, 3) ^ self.galoisfield_multiplication(b, 1) ^ self.galoisfield_multiplication(
+                c, 1) ^ self.galoisfield_multiplication(d, 2))
+        else:
+            one = (self.galoisfield_multiplication(a, 14) ^ self.galoisfield_multiplication(b, 11) ^ self.galoisfield_multiplication(
+                c, 13) ^ self.galoisfield_multiplication(d, 9))
+            two = (self.galoisfield_multiplication(a, 9) ^ self.galoisfield_multiplication(b, 14) ^ self.galoisfield_multiplication(
+                c, 11) ^ self.galoisfield_multiplication(d, 13))
+            three = (self.galoisfield_multiplication(a, 13) ^ self.galoisfield_multiplication(b, 9) ^ self.galoisfield_multiplication(
+                c, 14) ^ self.galoisfield_multiplication(d, 11))
+            four = (self.galoisfield_multiplication(a, 11) ^ self.galoisfield_multiplication(b, 13) ^ self.galoisfield_multiplication(
+                c, 9) ^ self.galoisfield_multiplication(d, 14))
         return [hex(one).lstrip("0x"), hex(two).lstrip("0x"), hex(three).lstrip("0x"), hex(four).lstrip("0x")]
 
     def galoisfield_multiplication(self, a, b):
-        if b == 1:
-            return a
-        tmp = (a << 1) & 0xff
-        if b == 2:
-            return tmp if a < 128 else tmp ^ 0x1b
-        if b == 3:
-            return self.galoisfield_multiplication(a, 2) ^ a
+        if self.benji:
+            if b == 1:
+                return a
+            tmp = (a << 1) & 0xff
+            if b == 2:
+                return tmp if a < 128 else tmp ^ 0x1b
+            if b == 3:
+                return self.galoisfield_multiplication(a, 2) ^ a
+        else:
+            aes_poly = [1, 0, 0, 0, 1, 1, 0, 1, 1]
+            u = list(map(int, (numpy.binary_repr(a))))
+            v = list(map(int, (numpy.binary_repr(b))))
+            w = polymul(u, v)
+            _, remainder = polydiv(w, aes_poly)
+            for x in range(0, len(remainder)):
+                remainder[x] = remainder[x] % 2
+            #var = remainder.astype(int)
+            # #print(type(var))
+            remainder = remainder[::-1]
+            sum = 0
+            for i in range(len(remainder)):
+                sum += remainder[i] * (2 ** i)
+            return int(sum)
 
     def add_round_key(self):
         for i in range(4):
@@ -219,10 +311,12 @@ class Cipher:
 
 
 if __name__ == '__main__':
-    # dont need to convert this, since already hex
+    # Todo
+    # balter_plain = "d014f9a8c9ee2589e1ef0cc8b6630ca6"
     key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
     plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
-    cipher = Cipher(key_master, plaintext_, 128)
-
-    cipher.Encrypt()
-    cipher.printable()
+    cipher_text = "3925841d02dc09fbdc118597196a0b32"
+    cipher = Cipher(key_master, cipher_text, 128)
+    #cipher.Encrypt()
+    cipher.Decrypt()
+    cipher.printable(False)
