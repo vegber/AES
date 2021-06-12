@@ -98,8 +98,4 @@ def format_content(content: list, content_encoding: bool) -> list:
 def write_to_file(content, filename):
     with open(filename, 'w+') as file:
         file.write(content)
-"""
-key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
-plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
-cipher_text = "3925841d02dc09fbdc118597196a0b32"
-"""
+
