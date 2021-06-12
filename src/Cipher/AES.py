@@ -249,21 +249,6 @@ class Cipher:
         return ret_me
 
     @staticmethod
-    def subBytes_for_round_keys(state):
-        # for byte in state:
-        #    print("0x"+byte)
-        # var = [sb.Sbox[binascii.hexlify(byte)] for byte in state]
-        # todo
-        # bug where some state contains empty string
-        try:
-            for index in range(len(state)):
-                if state[index] == '':
-                    state[index] += '0'
-            return [hex(sb.Sbox[int("0x" + word, 16)]) for word in state]
-        except "Substitution ERROR":
-            print(f"Error at: {state}")
-
-    @staticmethod
     def get_nth_column(col, last_matrix):
         column = [x[col] for x in last_matrix]
         for val in range(len(column)):
@@ -292,7 +277,7 @@ class Cipher:
                 if col == 0:  # only first round need a xor b xor c
                     # rotated_
                     # now SubBytes_
-                    subbytes_var = self.subBytes_for_round_keys(RotWord)
+                    subbytes_var = subBytes_for_round_keys(RotWord)
                     # now we xor first column in last matrix
                     # with Substitute bytes column
                     # and with first column of R_con
@@ -320,6 +305,21 @@ class Cipher:
             for y in range(len(self.state[x])):
                 if len(self.state[x][y]) == 1:
                     self.state[x][y] = "0"+self.state[x][y]
+
+
+def subBytes_for_round_keys(state):
+    # for byte in state:
+    #    print("0x"+byte)
+    # var = [sb.Sbox[binascii.hexlify(byte)] for byte in state]
+    # todo
+    # bug where some state contains empty string
+    try:
+        for index in range(len(state)):
+            if state[index] == '':
+                state[index] += '0'
+        return [hex(sb.Sbox[int("0x" + word, 16)]) for word in state]
+    except "Substitution ERROR":
+        print(f"Error at: {state}")
 
 
 if __name__ == '__main__':

@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3766fb6-a424-47ce-865c-ec2e1523ecfe" name="Default Changelist" comment="Implementert encryptio via Terminal ECB mode">
-      <change beforePath="$PROJECT_DIR$/.idea/webResources.xml" beforeDir="false" />
+    <list default="true" id="e3766fb6-a424-47ce-865c-ec2e1523ecfe" name="Default Changelist" comment="ECB mode implemented via Terminal. Both read from terminal encrypt and read from terminal decrypt works!">
+      <change afterPath="$PROJECT_DIR$/src/Cipher/plaintext.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cipher/AES.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/AES.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cipher/DataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/DataManagement.py" afterDir="false" />
@@ -208,7 +209,7 @@
       <workItem from="1623406859302" duration="7523000" />
       <workItem from="1623416389819" duration="8108000" />
       <workItem from="1623433781745" duration="14061000" />
-      <workItem from="1623511429497" duration="2503000" />
+      <workItem from="1623511429497" duration="7640000" />
     </task>
     <task id="LOCAL-00001" summary="Redo">
       <created>1623262791749</created>
@@ -266,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623502170333</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="ECB mode implemented via Terminal. Both read from terminal encrypt and read from terminal decrypt works!">
+      <created>1623514347156</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1623514347156</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,7 +300,8 @@
     <MESSAGE value="Refactor" />
     <MESSAGE value="Ferdig" />
     <MESSAGE value="Implementert encryptio via Terminal ECB mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementert encryptio via Terminal ECB mode" />
+    <MESSAGE value="ECB mode implemented via Terminal. Both read from terminal encrypt and read from terminal decrypt works!" />
+    <option name="LAST_COMMIT_MESSAGE" value="ECB mode implemented via Terminal. Both read from terminal encrypt and read from terminal decrypt works!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -306,16 +315,6 @@
           <url>file://$PROJECT_DIR$/src/Cipher/TestENV.py</url>
           <line>12</line>
           <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/Cipher/ECB.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/Cipher/ECB.py</url>
-          <line>36</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -332,6 +331,6 @@
     <SUITE FILE_PATH="coverage/AES_project$oppgave_13_eksamen__1_.coverage" NAME="oppgave_13_eksamen (1) Coverage Results" MODIFIED="1623402544802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
     <SUITE FILE_PATH="coverage/AES_project$AES.coverage" NAME="AES Coverage Results" MODIFIED="1623512768384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
     <SUITE FILE_PATH="coverage/AES_project$TestENV.coverage" NAME="TestENV Coverage Results" MODIFIED="1623321790247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
-    <SUITE FILE_PATH="coverage/AES_project$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1623514057581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES_project$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1623525093736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
   </component>
 </project>

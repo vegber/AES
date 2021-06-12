@@ -7,8 +7,6 @@ decryption.
 - HEX to ASCII values
 - PADDING
 """
-from binascii import *
-
 from BitVector import *
 
 
@@ -28,10 +26,6 @@ def hex_to_ascii(input):
     :return:
     """
     return bytes.fromhex(input).decode('utf-8')
-
-
-def divideString(string, n):
-    pass
 
 
 def stream_to_blocks(block):
@@ -81,6 +75,29 @@ def transpose(nested_list):
         for y in range(4):
             transpose[y][x] = nested_list[x][y]
     return transpose
+
+def read_from_file(file_name):
+    return open(file_name, 'r+')
+
+def format_content(content: list, content_encoding: bool) -> list:
+    """
+    - iterate trough content, and make it into one string
+    - if not in hex, convert to hex
+    - then turn string to blocks with padding
+    :param content:
+    :param content_encoding:
+    :return:
+    """
+    content_str = ""
+    for x in content:
+        content_str += x
+    if content_encoding:
+        content_str = ascii_to_hex(content_str)
+    return stream_to_blocks(content_str)
+
+def write_to_file(content, filename):
+    with open(filename, 'w+') as file:
+        file.write(content)
 """
 key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
 plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
