@@ -1,15 +1,17 @@
-from collections import deque
+import sys
+import os
+sys.path.append(os.getcwd())
 
+from collections import deque
 import numpy
 from numpy import polymul, polydiv
-import static.S_BOX as sb
-
+import S_BOX as sb
 
 class Cipher:
     keys = []
     state = []
     rounds = 0
-    benji = None
+    benji = True
 
     def __init__(self, key, text, key_size):
         """
@@ -309,14 +311,15 @@ class Cipher:
             correct_format = self.convert_to_matrix(columns_)
             self.keys.append(correct_format)
 
-
 if __name__ == '__main__':
-    # Todo
-    # balter_plain = "d014f9a8c9ee2589e1ef0cc8b6630ca6"
-    key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
-    plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
+
+    #key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
+    #plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
     cipher_text = "3925841d02dc09fbdc118597196a0b32"
-    cipher = Cipher(key_master, cipher_text, 128)
-    #cipher.Encrypt()
-    cipher.Decrypt()
+    key_master = "76656761726462657267656b65797300"
+    plaintext_ = "7665676172646265726765706c61696e"
+
+    cipher = Cipher(key_master, plaintext_, 128)
+    cipher.Encrypt()
+    #cipher.Decrypt()
     cipher.printable(False)

@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3766fb6-a424-47ce-865c-ec2e1523ecfe" name="Default Changelist" comment="Refactor">
-      <change afterPath="$PROJECT_DIR$/.idea/file.template.settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
+    <list default="true" id="e3766fb6-a424-47ce-865c-ec2e1523ecfe" name="Default Changelist" comment="Ferdig">
+      <change afterPath="$PROJECT_DIR$/src/Cipher/ECB.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Cipher/AES.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/AES.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/static/S_BOX.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/static/S_BOX.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cipher/TestENV.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/TestENV.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Test/TestVectorChecks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Test/TestVectorChecks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/S_BOX.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/S_BOX.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/static/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/DataManagement.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,10 +68,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Cipher" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.AES">
+  <component name="RunManager" selected="Python.ECB">
     <configuration name="AES" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AES_project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -84,6 +87,50 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/Cipher/AES.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="DataManagement" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AES_project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/Cipher" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/Cipher/DataManagement.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ECB" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="AES_project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/Cipher" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/Cipher/ECB.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -138,7 +185,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ECB" />
         <item itemvalue="Python.AES" />
+        <item itemvalue="Python.DataManagement" />
         <item itemvalue="Python.oppgave_13_eksamen (1)" />
         <item itemvalue="Python.TestENV" />
       </list>
@@ -159,7 +208,8 @@
       <workItem from="1623400804438" duration="2795000" />
       <workItem from="1623406222990" duration="602000" />
       <workItem from="1623406859302" duration="7523000" />
-      <workItem from="1623416389819" duration="6229000" />
+      <workItem from="1623416389819" duration="8108000" />
+      <workItem from="1623433781745" duration="12487000" />
     </task>
     <task id="LOCAL-00001" summary="Redo">
       <created>1623262791749</created>
@@ -203,7 +253,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623406831794</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Ferdig">
+      <created>1623422644431</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1623422644431</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,7 +284,8 @@
     <MESSAGE value="almost done! subbytess left" />
     <MESSAGE value="Works" />
     <MESSAGE value="Refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor" />
+    <MESSAGE value="Ferdig" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ferdig" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -253,8 +311,10 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/AES_project$DataManagement.coverage" NAME="DataManagement Coverage Results" MODIFIED="1623448785323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
     <SUITE FILE_PATH="coverage/AES_project$oppgave_13_eksamen__1_.coverage" NAME="oppgave_13_eksamen (1) Coverage Results" MODIFIED="1623402544802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/AES_project$AES.coverage" NAME="AES Coverage Results" MODIFIED="1623422615291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES_project$AES.coverage" NAME="AES Coverage Results" MODIFIED="1623501238013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
     <SUITE FILE_PATH="coverage/AES_project$TestENV.coverage" NAME="TestENV Coverage Results" MODIFIED="1623321790247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES_project$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1623502053306" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
   </component>
 </project>

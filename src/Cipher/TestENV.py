@@ -1,6 +1,6 @@
 from collections import deque
 
-import static.S_BOX as sb
+import S_BOX as sb
 from AES import Cipher
 
 # key = "2b7e151628aed2a6abf7158809cf4f3c"
