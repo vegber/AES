@@ -67,6 +67,20 @@ def zeroesUpToN(n):
         zeros += s.count('0')
     return zeros
 
+def two_by_two_to_str(two_by_two):
+    out = ""
+    transposed_list = transpose(two_by_two)
+    for x in transposed_list:
+        for y in x:
+            out += y
+    return out
+
+def transpose(nested_list):
+    transpose = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
+    for x in range(4):
+        for y in range(4):
+            transpose[y][x] = nested_list[x][y]
+    return transpose
 """
 key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
 plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()

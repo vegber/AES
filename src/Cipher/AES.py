@@ -80,10 +80,14 @@ class Cipher:
                 transpose[y][x] = nested_list[x][y]
         return transpose
 
+    def get_state(self):
+        return self.state
+
     def printable(self, matrix_form: bool):
         """
         :rtype: object
         """
+        self.zerofix()
         if matrix_form:
             print(*self.state, sep='\n')
             print()
@@ -311,6 +315,13 @@ class Cipher:
             correct_format = self.convert_to_matrix(columns_)
             self.keys.append(correct_format)
 
+    def zerofix(self):
+        for x in range(len(self.state)):
+            for y in range(len(self.state[x])):
+                if len(self.state[x][y]) == 1:
+                    self.state[x][y] = "0"+self.state[x][y]
+
+
 if __name__ == '__main__':
 
     #key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
@@ -318,8 +329,9 @@ if __name__ == '__main__':
     cipher_text = "3925841d02dc09fbdc118597196a0b32"
     key_master = "76656761726462657267656b65797300"
     plaintext_ = "7665676172646265726765706c61696e"
-
-    cipher = Cipher(key_master, plaintext_, 128)
-    cipher.Encrypt()
-    #cipher.Decrypt()
+    alter_key = "31323334353637383132333435363738"
+    alter_cipher = "7c02d7bef794da08999953c2e1ac1f7e"
+    cipher = Cipher(alter_key, alter_cipher, 128)
+    # cipher.Encrypt()
+    cipher.Decrypt()
     cipher.printable(False)

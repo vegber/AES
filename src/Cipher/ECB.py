@@ -14,13 +14,13 @@ due to the fact that I want to support big data.
 def encrypt_by_terminal():
     password, text = get_io("Encryption")
     key_frase = ''.join(password)
-    # should be a for loop # Todo
     for x in range(len(text)):
         aes = Cipher(key_frase, ''.join(text[x]), 128)
         aes.Encrypt()
         aes.printable(False)
 
 def get_io(mode):
+    print()
     print(f"You are now in {mode} mode\nPlease enter "
           f"the following: ")
     print()
@@ -39,7 +39,18 @@ def get_io(mode):
     return stream_to_blocks(ascii_to_hex(password)), stream_to_blocks(text)
 
 def decrypt_by_terminal():
-    pass
+    password, text = get_io("Decryption")
+    key_frase = ''.join(password)
+    plaintext = ""
+    for x in range(len(text)):
+        aes = Cipher(key_frase, ''.join(text[x]), 128)
+        aes.Decrypt()
+        out = aes.get_state()
+        stringed_out = two_by_two_to_str(out)
+        plaintext += (hex_to_ascii(stringed_out))
+    print(plaintext)
+
+        #aes.printable(False)
 
 def encrypt_file_read(filename, outfile):
     pass
@@ -53,3 +64,4 @@ def decrypt_file_read(self, cipherfile, plainfile):
 
 if __name__ == '__main__':
     encrypt_by_terminal()
+    decrypt_by_terminal()
