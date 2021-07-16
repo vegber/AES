@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from AES import Cipher
 from DataManagement import *
 import os
@@ -45,7 +46,12 @@ def get_key(mode):
             print("Key cannot be longer than 128 bits, or 16 ASCII chars! ")
         else:
             break
-    return password
+    # Todo
+    # Need to pad password if it is shorter than 16
+    # Password to hex
+    hexed_pass = ascii_to_hex(password)
+    padded_pass = pad_one_block(hexed_pass, 96).get_bitvector_in_hex()
+    return padded_pass  # password
 
 
 def decrypt_by_terminal():
@@ -58,8 +64,8 @@ def decrypt_by_terminal():
         aes.zerofix()
         out = aes.get_state()
         stringed_out = two_by_two_to_str(out)
-        plaintext += stringed_out# (hex_to_ascii(stringed_out))
-    print(plaintext)
+        plaintext += hex_to_ascii(stringed_out)  # stringed_out(
+    print(plaintext, end="\n")
 
     # aes.printable(False)
 

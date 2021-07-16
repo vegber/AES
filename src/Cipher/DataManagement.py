@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 All the helper functions we need for encryption and
 decryption.
@@ -33,13 +34,28 @@ def stream_to_blocks(block):
     # pad the last block
     last_block = blocks[-1]
     if len(last_block) != 32:
-        # pad
-        bit_obj = BitVector(hexstring=last_block)
-        bit_obj.pad_from_right(128 - len(bit_obj))
-        blocks[-1] = bit_obj.get_bitvector_in_hex()
+        padding_scheme(blocks, last_block, 128)
         return blocks
     else:
         return blocks
+
+
+def padding_scheme(blocks, last_block, bit):
+    # pad
+    bit_obj = pad_one_block(last_block, bit)
+    blocks[-1] = bit_obj.get_bitvector_in_hex()
+
+
+def pad_one_block(last_block, bit):
+    """
+    Has hexstring as input!
+    :param last_block:
+    :return:
+    """
+    bit_obj = BitVector(hexstring=last_block)
+    bit_obj.pad_from_right(bit - len(bit_obj))
+    return bit_obj
+
 
 def remove_padding(blocks: str):
     """

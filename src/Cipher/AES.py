@@ -1,11 +1,15 @@
+#!/usr/bin/env python3
+
 import sys
 import os
+
 sys.path.append(os.getcwd())
 
 from collections import deque
 import numpy
 from numpy import polymul, polydiv
 import S_BOX as sb
+
 
 class Cipher:
     keys = []
@@ -94,7 +98,7 @@ class Cipher:
         else:
             for x in self.transpose_list(self.state):
                 for y in x:
-                    print(y, end=" ")
+                    print(y, end="")
 
     def round_keys(self, key, key_size):
         # TODO
@@ -160,22 +164,30 @@ class Cipher:
 
     def column_mix_column(self, a, b, c, d, mode):
         if mode:
-            one = (self.galoisfield_multiplication(a, 2) ^ self.galoisfield_multiplication(b, 3) ^ self.galoisfield_multiplication(
+            one = (self.galoisfield_multiplication(a, 2) ^ self.galoisfield_multiplication(b,
+                                                                                           3) ^ self.galoisfield_multiplication(
                 c, 1) ^ self.galoisfield_multiplication(d, 1))
-            two = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b, 2) ^ self.galoisfield_multiplication(
+            two = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b,
+                                                                                           2) ^ self.galoisfield_multiplication(
                 c, 3) ^ self.galoisfield_multiplication(d, 1))
-            three = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b, 1) ^ self.galoisfield_multiplication(
+            three = (self.galoisfield_multiplication(a, 1) ^ self.galoisfield_multiplication(b,
+                                                                                             1) ^ self.galoisfield_multiplication(
                 c, 2) ^ self.galoisfield_multiplication(d, 3))
-            four = (self.galoisfield_multiplication(a, 3) ^ self.galoisfield_multiplication(b, 1) ^ self.galoisfield_multiplication(
+            four = (self.galoisfield_multiplication(a, 3) ^ self.galoisfield_multiplication(b,
+                                                                                            1) ^ self.galoisfield_multiplication(
                 c, 1) ^ self.galoisfield_multiplication(d, 2))
         else:
-            one = (self.galoisfield_multiplication(a, 14) ^ self.galoisfield_multiplication(b, 11) ^ self.galoisfield_multiplication(
+            one = (self.galoisfield_multiplication(a, 14) ^ self.galoisfield_multiplication(b,
+                                                                                            11) ^ self.galoisfield_multiplication(
                 c, 13) ^ self.galoisfield_multiplication(d, 9))
-            two = (self.galoisfield_multiplication(a, 9) ^ self.galoisfield_multiplication(b, 14) ^ self.galoisfield_multiplication(
+            two = (self.galoisfield_multiplication(a, 9) ^ self.galoisfield_multiplication(b,
+                                                                                           14) ^ self.galoisfield_multiplication(
                 c, 11) ^ self.galoisfield_multiplication(d, 13))
-            three = (self.galoisfield_multiplication(a, 13) ^ self.galoisfield_multiplication(b, 9) ^ self.galoisfield_multiplication(
+            three = (self.galoisfield_multiplication(a, 13) ^ self.galoisfield_multiplication(b,
+                                                                                              9) ^ self.galoisfield_multiplication(
                 c, 14) ^ self.galoisfield_multiplication(d, 11))
-            four = (self.galoisfield_multiplication(a, 11) ^ self.galoisfield_multiplication(b, 13) ^ self.galoisfield_multiplication(
+            four = (self.galoisfield_multiplication(a, 11) ^ self.galoisfield_multiplication(b,
+                                                                                             13) ^ self.galoisfield_multiplication(
                 c, 9) ^ self.galoisfield_multiplication(d, 14))
         return [hex(one).lstrip("0x"), hex(two).lstrip("0x"), hex(three).lstrip("0x"), hex(four).lstrip("0x")]
 
@@ -196,7 +208,7 @@ class Cipher:
             _, remainder = polydiv(w, aes_poly)
             for x in range(0, len(remainder)):
                 remainder[x] = remainder[x] % 2
-            #var = remainder.astype(int)
+            # var = remainder.astype(int)
             # #print(type(var))
             remainder = remainder[::-1]
             sum = 0
@@ -304,7 +316,7 @@ class Cipher:
         for x in range(len(self.state)):
             for y in range(len(self.state[x])):
                 if len(self.state[x][y]) == 1:
-                    self.state[x][y] = "0"+self.state[x][y]
+                    self.state[x][y] = "0" + self.state[x][y]
 
 
 def subBytes_for_round_keys(state):
@@ -323,9 +335,8 @@ def subBytes_for_round_keys(state):
 
 
 if __name__ == '__main__':
-
-    #key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
-    #plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
+    # key_master = "2b7e151628aed2a6abf7158809cf4f3c"  # .encode("utf-8").hex()
+    # plaintext_ = "3243f6a8885a308d313198a2e0370734"  # .encode("utf-8").hex()
     cipher_text = "3925841d02dc09fbdc118597196a0b32"
     key_master = "76656761726462657267656b65797300"
     plaintext_ = "7665676172646265726765706c61696e"
