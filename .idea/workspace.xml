@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3766fb6-a424-47ce-865c-ec2e1523ecfe" name="Default Changelist" comment="ECB read&amp;encrypt from file implemented.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cipher/AES.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/AES.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cipher/DataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/DataManagement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cipher/ECB.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cipher/ECB.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +33,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -52,17 +49,20 @@
   <component name="ProjectId" id="1tiqq3b2wX4dRwVoSGyGkkXau8G" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="Python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+    <property name="settings.editor.splitter.proportion" value="0.22520325" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -137,7 +137,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="oppgave_13_eksamen (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="TestVectorChecks" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="AES_project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -145,12 +145,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Downloads" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/Test" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Downloads/oppgave_13_eksamen (1).py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/Test/TestVectorChecks.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -184,10 +184,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.ECB" />
+        <item itemvalue="Python.TestVectorChecks" />
         <item itemvalue="Python.test2" />
         <item itemvalue="Python.AES" />
         <item itemvalue="Python.DataManagement" />
-        <item itemvalue="Python.oppgave_13_eksamen (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -210,6 +210,10 @@
       <workItem from="1623433781745" duration="14061000" />
       <workItem from="1623511429497" duration="13740000" />
       <workItem from="1626446678502" duration="3229000" />
+      <workItem from="1633018011893" duration="2837000" />
+      <workItem from="1633790847064" duration="721000" />
+      <workItem from="1634405049245" duration="329000" />
+      <workItem from="1634405390385" duration="79000" />
     </task>
     <task id="LOCAL-00001" summary="Redo">
       <created>1623262791749</created>
@@ -335,11 +339,12 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AES_project$oppgave_13_eksamen__1_.coverage" NAME="oppgave_13_eksamen (1) Coverage Results" MODIFIED="1623402544802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
-    <SUITE FILE_PATH="coverage/AES_project$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1623531700410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
-    <SUITE FILE_PATH="coverage/AES$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1626472308515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
-    <SUITE FILE_PATH="coverage/AES_project$DataManagement.coverage" NAME="DataManagement Coverage Results" MODIFIED="1623448785323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
-    <SUITE FILE_PATH="coverage/AES_project$AES.coverage" NAME="AES Coverage Results" MODIFIED="1623512768384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
     <SUITE FILE_PATH="coverage/AES_project$TestENV.coverage" NAME="TestENV Coverage Results" MODIFIED="1623321790247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES$TestVectorChecks.coverage" NAME="TestVectorChecks Coverage Results" MODIFIED="1633018158980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Test" />
+    <SUITE FILE_PATH="coverage/AES_project$DataManagement.coverage" NAME="DataManagement Coverage Results" MODIFIED="1623448785323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1633020869310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES_project$ECB.coverage" NAME="ECB Coverage Results" MODIFIED="1623531700410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES_project$AES.coverage" NAME="AES Coverage Results" MODIFIED="1623512768384" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/Cipher" />
+    <SUITE FILE_PATH="coverage/AES_project$oppgave_13_eksamen__1_.coverage" NAME="oppgave_13_eksamen (1) Coverage Results" MODIFIED="1623402544802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
   </component>
 </project>
