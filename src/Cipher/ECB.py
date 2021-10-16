@@ -17,6 +17,7 @@ due to the fact that I want to support big data.
 def encrypt_by_terminal():
     password, text = get_io("Encryption")
     key_frase = ''.join(password)
+    print(password)
     for x in range(len(text)):
         aes = Cipher(key_frase, ''.join(text[x]), 128)
         aes.Encrypt()
@@ -31,14 +32,16 @@ def get_io(mode):
     print()
     password = get_key(mode)
     # password = input(f"{mode} Key: ")
-    choice = input("Text as HEX or ASCII, default ASCII (Y/n): ")
+    choice = input("Input as HEX or ASCII, default ASCII (Y/n): ")
     if not choice:
         text = ascii_to_hex(input(f"{mode} Text: "))
     else:
         text = (input(f"{mode} Text: ")).replace(' ', '')
-    return stream_to_blocks(ascii_to_hex(password)), stream_to_blocks(text)
 
+    print(f"stream to block, ascii to hex {stream_to_blocks((password))}")
+    return stream_to_blocks(password), stream_to_blocks(text)
 
+#returns key as hex string
 def get_key(mode):
     while True:
         password = input(f"{mode} Key: ")
@@ -50,7 +53,7 @@ def get_key(mode):
     # Need to pad password if it is shorter than 16
     # Password to hex
     hexed_pass = ascii_to_hex(password)
-    padded_pass = pad_one_block(hexed_pass, 96).get_bitvector_in_hex()
+    padded_pass = pad_one_block(hexed_pass, 128).get_bitvector_in_hex()
     return padded_pass  # password
 
 
